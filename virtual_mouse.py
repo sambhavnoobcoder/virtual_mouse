@@ -1,6 +1,6 @@
 import mediapipe as mp
 import cv2
-# import pyautogui
+import pyautogui
 import math
 import numpy as np
 import autopy
@@ -116,19 +116,19 @@ class handDetector():
 #                 y=int(landmark.y*frames_height)
 #                 print(x,y)
 #
-#                 if id ==8:
-#                     cv2.circle(img=frames,center=(x,y),radius=10,color=(255,0,255))
-#                     inx= screen_width/frames_width*x
-#                     iny=screen_height/frames_height*y
-#                     pyautogui.moveTo(inx,iny)
-#                 # if id ==12:
-#                 #     cv2.circle(img=frames,center=(x,y),radius=10,color=(255,0,255))
-#                 #     thx= screen_width/frames_width*x
-#                 #     thy=screen_height/frames_height*y
-#                 #     if abs(thy - iny )<30:
-#                 #         pyautogui.click()
-#                 #         pyautogui.sleep(1)
-#                 #         print("click")
+                # if id ==8:
+                #     cv2.circle(img=frames,center=(x,y),radius=10,color=(255,0,255))
+                #     inx= screen_width/frames_width*x
+                #     iny=screen_height/frames_height*y
+                #     pyautogui.moveTo(inx,iny)
+                # if id ==12:
+                #     cv2.circle(img=frames,center=(x,y),radius=10,color=(255,0,255))
+                #     thx= screen_width/frames_width*x
+                #     thy=screen_height/frames_height*y
+                #     if abs(thy - iny )<30:
+                #         pyautogui.click()
+                #         pyautogui.sleep(1)
+                #         # print("click")
 #     cv2.imshow("virtual mouse",frames)
 #     cv2.waitKey(1)
 
@@ -136,8 +136,8 @@ class handDetector():
 
 ### Variables Declaration
 pTime = 0               # Used to calculate frame rate
-width = 940             # Width of Camera
-height = 780            # Height of Camera
+width = 780            # Width of Camera
+height = 640            # Height of Camera
 frameR = 100            # Frame Rate
 smoothening = 8         # Smoothening Factor
 prev_x, prev_y = 0, 0   # Previous coordinates
@@ -174,10 +174,29 @@ while True:
 
         if fingers[1] == 1 and fingers[2] == 1:     # If fore finger & middle finger both are up
             length, img, lineInfo = detector.findDistance(8, 12, img)
+            dbc,img,lineinfo=detector.findDistance(8,4,img) #if index finger and thumb are close initiate double click
 
             if length < 40:     # If both fingers are really close to each other
                 cv2.circle(img, (lineInfo[4], lineInfo[5]), 15, (0, 255, 0), cv2.FILLED)
                 autopy.mouse.click()    # Perform Click
+                # autopy.sleep(1)
+                print ("click 2 ")
+                time.sleep(.5)
+
+            if dbc<40:
+                cv2.circle(img, (lineinfo[3],lineinfo[5]),15,(255,0,0),cv2.FILLED)
+                # autopy.mouse.click(autopy.mouse.Button.RIGHT)
+                # autopy.mouse.click()
+                # time.sleep(.5)
+                # autopy.mouse.click()
+                pyautogui.hotkey('command','o')
+                time.sleep(.7)
+                # pyautogui.click(curr_x,curr_y,clicks=2)
+                # pyautogui.doubleClick()
+                # pyautogui.doubleclick()
+                print("click for double click")
+                # time.sleep(.7)
+
 
     cTime = time.time()
     fps = 1/(cTime-pTime)

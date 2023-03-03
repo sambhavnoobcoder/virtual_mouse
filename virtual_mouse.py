@@ -172,31 +172,47 @@ while True:
             cv2.circle(img, (x1, y1), 7, (255, 0, 255), cv2.FILLED)
             prev_x, prev_y = curr_x, curr_y
 
-        if fingers[1] == 1 and fingers[2] == 1:     # If fore finger & middle finger both are up
-            length, img, lineInfo = detector.findDistance(8, 12, img)
-            dbc,img,lineinfo=detector.findDistance(8,4,img) #if index finger and thumb are close initiate double click
+        # if fingers[1] == 1 and fingers[2] == 1:     # If fore finger & middle finger both are up
+        #     length, img, lineInfo = detector.findDistance(8, 12, img)
+        #     dbc,img,lineinfo=detector.findDistance(8,4,img) #if index finger and thumb are close initiate double click
 
-            if length < 40:     # If both fingers are really close to each other
-                cv2.circle(img, (lineInfo[4], lineInfo[5]), 15, (0, 255, 0), cv2.FILLED)
-                autopy.mouse.click()    # Perform Click
-                # autopy.sleep(1)
-                print ("click 2 ")
-                time.sleep(.5)
+            # if length < 40:     # If both fingers are really close to each other
+            #     cv2.circle(img, (lineInfo[4], lineInfo[5]), 15, (0, 255, 0), cv2.FILLED)
+            #     autopy.mouse.click()    # Perform Click
+            #     time.sleep(1)
+            #     print("click 2 ")
+            #     time.sleep(.5)
+            #
+            # if dbc<40:
+            #     cv2.circle(img, (lineinfo[3],lineinfo[5]),15,(255,0,0),cv2.FILLED)
+            #     autopy.mouse.click(autopy.mouse.Button.RIGHT)
+            #     autopy.mouse.click()
+            #     time.sleep(.5)
+            #     autopy.mouse.click()
+            #     pyautogui.hotkey('command','o')
+            #     time.sleep(.7)
+            #     pyautogui.click(curr_x,curr_y,clicks=2)
+            #     pyautogui.doubleClick()
+            #     pyautogui.doubleclick()
+            #     print("click for double click")
+            #     time.sleep(.7)
 
-            if dbc<40:
-                cv2.circle(img, (lineinfo[3],lineinfo[5]),15,(255,0,0),cv2.FILLED)
-                # autopy.mouse.click(autopy.mouse.Button.RIGHT)
-                # autopy.mouse.click()
-                # time.sleep(.5)
-                # autopy.mouse.click()
-                pyautogui.hotkey('command','o')
-                time.sleep(.7)
-                # pyautogui.click(curr_x,curr_y,clicks=2)
-                # pyautogui.doubleClick()
-                # pyautogui.doubleclick()
-                print("click for double click")
-                # time.sleep(.7)
+        # if fingers[0]==1 :
+        #     pyautogui.press("left")
+        #     time.sleep(.5)
 
+        if fingers[1]==1 and fingers[2]==1:
+            autopy.mouse.click()
+            # pyautogui.press("right")
+            print("single click executed")
+            time.sleep(.5)
+
+        if fingers[1]==1 and fingers[4]==1:
+            # pyautogui.doubleClick()
+            pyautogui.hotkey('command', 'o')
+            time.sleep(1)
+            print("double click executed ")
+            # time.sleep(.7)
 
     cTime = time.time()
     fps = 1/(cTime-pTime)
@@ -204,3 +220,5 @@ while True:
     cv2.putText(img, str(int(fps)), (20, 50), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 0), 3)
     cv2.imshow("Image", img)
     cv2.waitKey(1)
+
+    #mouse code
